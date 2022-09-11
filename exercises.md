@@ -56,3 +56,17 @@ Sie können sich Module ausdenken oder im
 [Modulbaukasten](https://www.modulbaukasten.ch/) nachschauen, wenn Ihnen die
 Modulinformationen nicht geläufig sind.
 
+## Klassenverwaltung
+
+`ex4/main.go`: Erstellen Sie eine kleine Klassenverwaltung, indem Sie mithilfe
+von Strukturen, Maps und Slices folgende Sachverhalte modellieren:
+
+- Ein Schüler (`Student`) hat einen Vor- und Nachnamen.
+- Eine Klasse (`Class`) besteht aus einer Reihe von Schülern.
+- Ein Modul hat eine eindeutige Nummer (z.B. `346`) und wird von einer Reihe von
+  Klassen besucht.
+
+Erstellen Sie die notwendigen Datenstrukturen und erstellen Sie entsprechende
+Beispieldaten (d.h. mindestens zwei Klassen mit je drei Schülern und mindestens
+drei Module, die von einer oder mehreren Klassen besucht werden). Geben Sie die
+Daten anschliessend per `fmt.Println()` auf die Konsole aus.

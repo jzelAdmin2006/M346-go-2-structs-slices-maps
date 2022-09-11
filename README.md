@@ -141,9 +141,9 @@ Unterelemente direkt angesprochen werden:
 
 ```go
 type Teacher struct {
-	FullName
-	BirthDate
-	TeachesModule string
+    FullName
+    BirthDate
+    TeachesModule string
 }
 
 pbucher := Teacher{

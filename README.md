@@ -59,6 +59,16 @@ type Person struct {
 }
 ```
 
+Für die Gross- und Kleinschreibung sollen bis auf Weiteres folgende Regeln
+gelten:
+
+- Neue Datentypen wie Strukturen werden mit grossem Anfangsbuchstaben
+  geschrieben, z.B.  `Person` oder `Address`.
+- Elemente von Strukturen werden ebenfalls mit grossem Anfangsbuchstaben
+  geschrieben, z.B. `FirstName` oder `LastName`.
+- Konkrete Variablen werden mit kleinem Anfangsbuchstaben geschrieben, also
+  `person` oder `address`.
+
 Eine Struktur kann auch aus anderen Strukturen zusammengesetzt werden. So lassen
 sich die Informationen eines Steckbriefs gruppieren:
 

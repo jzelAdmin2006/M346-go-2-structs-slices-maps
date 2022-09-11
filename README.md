@@ -115,6 +115,16 @@ var teacher = Person{
 }
 ```
 
+Da die Reihenfolge der Elemente festgelegt ist, kann deren Name weggelassen
+werden:
+
+```go
+var teacher = Person{
+    myName,
+    myBirthDate,
+}
+```
+
 Lesender und schreibender Zugriff auf einzelne Elemente der Struktur ist
 mithilfe des Punkt-Operators möglich:
 

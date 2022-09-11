@@ -38,13 +38,17 @@ func main() {
 		Name: myName,
 		Born: myBirthDate,
 	}
+	var otherTeacher = Person{
+		myName,
+		myBirthDate,
+	}
 
 	fmt.Println("Teacher's last name:", teacher.Name.LastName)
 
 	teacher.Name.FirstName = "Padraigh"
 	fmt.Println("Teacher's Irish name:", teacher.Name.FirstName)
 
-	fmt.Println(myName, myBirthDate, teacher)
+	fmt.Println(myName, myBirthDate, teacher, otherTeacher)
 
 	pbucher := Teacher{
 		myName,

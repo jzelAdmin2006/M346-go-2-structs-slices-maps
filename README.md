@@ -334,3 +334,134 @@ Ausgabe:
 Die Länge beträgt jetzt nur noch `2`, doch die Kapazität beträgt nach wie vor
 `3`, weil das zugrundeliegende Slice (bzw. Array) noch einen weiteren Wert
 aufnehmen kann.
+
+## Maps
+
+_Maps_ ([Spec](https://go.dev/ref/spec#Map_types)) speichern Informationen als
+Schlüssel-Wert-Paar (_key-value pair_) ab. (In anderen Programmiersprachen
+werden Maps als _Dictionary_, _Assoziatives Array_, _Hash_ oder _Table_
+bezeichnet.) Sie können als Verallgemeinerung von Slices (bzw. Arrays) gesehen
+werden, da man als Index nicht nur Zahlen von `0` bis `n-1` (wenn `n` die Länge
+ist), sondern beliebige Werte verwenden kann.
+
+Eine Map wird mit zwei Datentypen deklariert: Einen für den Schlüssel, und einen
+für den Wert:
+
+```go
+var countryPopulation map[string]uint
+var numbersSquareRoots map[int]float32
+var numbersIsPrime map[int]bool
+```
+
+- `countryPopulation` verwendet `string` als Schlüssel und `uint` als Wert.
+	- Das Land wird mit einem `string` bezeichnet.
+	- Die Anzahl Einwohner werden mit `uint` angegeben.
+- `numbersSquareRoots` verwendet `int` als Schlüssel und `float32` als Wert.
+	- Es werden Ganzzahlen als Schlüssel abgespeichert.
+	- Die Quadratwurzel einer ganzen Zahl muss hingegen keine ganze Zahl sein.
+- `numbersIsPrime` verwendet `int` als Schlüssel und `bool` als Wert.
+	- Es werden wiederum Ganzzahlen als Schlüssel abgespeichert.
+	- Der `bool`-Wert gibt an, ob es sich bei einer Zahl um eine Primzahl
+	  handelt.
+
+Maps sind offenbar sehr flexibel und vielseitig. Brian Kernighan, der das
+[Standardwerk über Go](https://gopl.io) mitgeschrieben hat, bezeichnet
+assoziative Arrays (d.h. Maps) als eine der wichtigsten Datenstrukturen
+überhaupt und [erklärt](https://www.youtube.com/watch?v=qTZJLJ3Gm6Q) diese sehr
+verständlich.
+
+### Maps erstellen
+
+Maps können auch mithilfe von `make` und einer initialen Kapazität erstellt
+werden:
+
+```go
+countryPopulation := make(map[string]uint, 0)
+numbersSquareRoots := make(map[int]float32, 0)
+numbersIsPrime := make(map[int]bool, 0)
+```
+
+Maps können mit Anfangswerten belegt werden, indem Schlüssel und Wert durch
+einen Doppelpunkt voneinander getrennt werden:
+
+```go
+countryPopulation := map[string]uint{
+	"AT": 8_917_000,
+	"CH": 8_637_000,
+	"DE": 83_240_000,
+}
+numbersSquareRoots := map[int]float32{
+	1: 1.0,
+	2: 1.41421356237,
+	4: 2.0,
+}
+numbersIsPrime := map[int]bool{
+	1: false,
+	2: true,
+	3: true,
+	4: false,
+}
+```
+
+### Werte einfügen, herauslesen und entfernen
+
+Weitere Elemente können direkt unter Angabe eines Schlüssel und Wertes in ein
+Dictionary eingefügt werden:
+
+```go
+countryPopulation["IT"] = 59_550_000
+numbersSquareRoots[16] = 4.0
+numbersIsPrime[13] = true
+```
+
+Auf bestehende Elemente kann man mit der gleichen Syntax zugreifen:
+
+```go
+fmt.Println("Swiss Population:", countryPopulation["CH"])
+fmt.Println("Square Root of 16:", numbersSquareRoots[16])
+fmt.Println("Is 13 Prime?", numbersIsPrime[13])
+```
+
+Ausgabe:
+
+	Swiss Population: 8637000
+	Square Root of 16: 4
+	Is 13 Prime? true
+
+Beim Zugriff mit Schlüsseln, die nicht existieren, wird der Nullwert
+zurückgegeben und _kein_ Fehler geworfen:
+
+```go
+fmt.Println("French Population:", countryPopulation["FR"])
+```
+
+Ausgabe:
+
+	French Population: 0
+
+Weist man den Wert des Zugriffs einer Variablen zu, kann man in einer zweiten
+Variablen erfahren, ob der Wert tatsächlich vorhanden war:
+
+```go
+frenchPopulation, ok := countryPopulation["FR"]
+fmt.Println("Value:", frenchPopulation)
+fmt.Println("Was stored in map?", ok)
+```
+
+Ausgabe:
+
+	French Population: 0
+	Value: 0
+	Was stored in map? false
+
+Mithilfe der eingebauten `delete()`-Funktion kann ein Element anhand seines
+Schlüssels aus der Map entfernt werden:
+
+```go
+delete(countryPopulation, "FR")
+fmt.Println(countryPopulation)
+```
+
+Ausgabe:
+
+	map[AT:8917000 CH:8637000 DE:83240000 IT:59550000]

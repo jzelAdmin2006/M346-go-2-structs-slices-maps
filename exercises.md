@@ -37,3 +37,22 @@ folgendermassen:
 1. Indem Sie die verbleibenden drei Werte berechnen und direkt ins bestehende
    Slice schreiben.
 2. Indem Sie noch vier weitere Werte berechnen und diese dem Slice anhängen.
+
+## Modulbezeichnungen
+
+`ex3/main.go`: Die Module haben jeweils eine Nummer (z.B. `346`) und eine
+Bezeichnung (z.B. "Cloud-Lösungen konzipieren und realisieren"). Erstellen Sie
+eine `map` namens `modules`, welche alle nötigen Angaben enthält, um die drei
+`fmt.Println()`-Aufrufe unten am Programm die richtigen Informationen ausgeben
+zu lassen. Welche Datentypen müssen Sie hierzu verwenden?
+
+Anschliessend nehmen Sie folgende Manipulationen an der `map` vor:
+
+1. Ein Element anhand des Schlüssels entfernen.
+2. Ein Element hinzufügen.
+3. Ein Element durch ein anderes ersetzen.
+
+Sie können sich Module ausdenken oder im
+[Modulbaukasten](https://www.modulbaukasten.ch/) nachschauen, wenn Ihnen die
+Modulinformationen nicht geläufig sind.
+

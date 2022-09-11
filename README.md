@@ -465,3 +465,61 @@ fmt.Println(countryPopulation)
 Ausgabe:
 
 	map[AT:8917000 CH:8637000 DE:83240000 IT:59550000]
+
+## Structs, Slices und Maps kombiniert
+
+Die zusammengesetzten Datentypen `struct`, `slice` und `map` können praktisch
+beliebig miteinander kombiniert werden:
+
+- Eine Struktur kann Slices und Maps enthalten.
+- Slices können aus Strukturen und Maps bestehen.
+- Maps können Strukturen und Slices ablegen.
+
+Im folgenden Beispiel (`combined/main.go`) werden folgende Datenstrukturen
+verwendet:
+
+- Eine `struct` namens `Player` bestehend aus Vor- und Nachname.
+- Eine `map[byte]Player`, welche Spieler unter einer Zahl ablegt (z.B.
+  Rückennummer eines Spielers).
+- Ein Slice bestehend aus `map[byte]Player`-Maps, welche mehrere solche Teams
+  ablegen kann.
+
+```go
+type Player struct {
+    FirstName string
+    LastName  string
+}
+type Team map[byte]Player
+teamA := Team{
+    1: Player{
+        FirstName: "Joe",
+        LastName:  "Doe",
+    },
+    2: Player{
+        FirstName: "Jay",
+        LastName:  "Day",
+    },
+}
+teamB := Team{
+    1: Player{
+        FirstName: "Jim",
+        LastName:  "Jam",
+    },
+    2: Player{
+        FirstName: "Jam",
+        LastName:  "Bam",
+    },
+}
+teams := []Team{
+    teamA,
+    teamB,
+}
+fmt.Println(teams)
+```
+
+Ausgabe:
+
+    [map[1:{Joe Doe} 2:{Jay Day}] map[1:{Jim Jam} 2:{Jam Bam}]]
+
+Die `map[byte]Player` wird als Typ `Team` definiert, was ihre Wiederverwendung
+im `teams`-Slice einfacher macht.

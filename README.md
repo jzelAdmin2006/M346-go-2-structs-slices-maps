@@ -200,3 +200,137 @@ Ausgabe:
 (Offenbar wurden die Angaben des Geburtsdatums auf der zweiten Zeile als
 hexadezimale bzw. Unicode-Zeichen interpretiert. Die generische Ausgabe mit `%q`
 ist zwar sehr einfach, aber nicht in jedem Fall sehr hilreich.)
+
+## Slices
+
+_Slices_ ([Spec](https://go.dev/ref/spec#Slice_types)) sind _homogen_, d.h. es
+können darin Werte des gleichen Datentyps abgespeichert werden. Im Gegensatz zu
+einer Struktur können das (theoretisch) beliebig viele Werte sein; die
+verfügbare Menge an Arbeitsspeicher ist die einzige Grenze.
+
+Strenggenommen stellen Slices nur eine Sicht auf _Arrays_
+([Spec](https://go.dev/ref/spec#Array_types)) dar, welche die eigentlichen Daten
+beinhalten. Für unsere Zwecke ist aber diese Entscheidung nicht notwendig. Darum
+soll hier nur von Slices die Rede sein.
+
+Ein Slice wird wie eine Variable deklariert. Dem Typ geht aber ein eckiges
+Klammernpaar voraus:
+
+```go
+var name string    // a single string
+var names []string // a slice of strings
+```
+
+Bei der Initialisierung kann wiederum auf die Typangabe links vom `=` verzichtet
+werden, da diese rechts davon angegeben wird:
+
+```go
+var days = []string{"Mo", "tu", "We", "Th", "Fr", "Sa"}
+```
+
+Beim `days`-Slice ging offenbar der Sonntag vergessen, der mithilfe von `append`
+ans Ende des Slices angefügt werden kann:
+
+```go
+days = append(days, "Su")
+```
+
+Achtung: `append` gibt eine Referenz auf ein neues Slice zurück, weswegen der
+Rückgabewert wiederum abgespeichert werden muss.
+
+Das zweite Element `"tu"` wurde im Gegensatz zu den anderen Elementen
+kleingeschrieben. Dies soll angepasst werden, indem das Element mithilfe des
+0-basierenden Index überschrieben wird:
+
+```go
+days[1] = "Tu"
+```
+
+Das Slice sollte nun die abgekürzten Wochentage enthalten. Deren Anzahl kann mit
+der eingebauten `len()`-Funktion ermittelt werden:
+
+```go
+fmt.Println(days)
+fmt.Println(len(days))
+```
+
+Ausgabe:
+
+    [Mo Tu We Th Fr Sa Su]
+    7
+
+Das erste Element ist an Index `0` zu finden. Für den Zugriff auf das letzte
+Element kann die Länge vom Slice abzüglich eins verwendet werden:
+
+```go
+firstDay := days[0]
+lastDay := days[len(days)-1]
+fmt.Println("from", firstDay, "to", lastDay)
+```
+
+Ausgabe:
+
+    from Mo to Su
+
+### Slice-Ausschnitte und Slicing-Syntax
+
+Mit der namensgebenden _Slicing-Syntax_ können Ausschnitte aus dem Slice
+ermittelt werden. Hierzu wird die Untergrenze _inklusiv_, die Obergrenze
+_exklusiv_ angegeben, sodass die Obergrenze von der Untergrenze subtrahiert die
+gleich der Länge des neuen Slices ist:
+
+```go
+workdays := days[0:5]
+weekend := days[5:7]
+fmt.Println(workdays, len(workdays))
+fmt.Println(weekend, len(weekend))
+```
+
+Ausgabe:
+
+    [Mo Tu We Th Fr] 5
+    [Sa Su] 2
+
+### Exkurs: Länge und Kapazität (optional)
+
+Mithilfe der eingebauten `make`-Funktion lassen sich verschiedene
+Datenstrukturen erzeugen, z.B. Slices. Hierzu wird ein Typ und die initiale
+Grösse des Slices angegeben:
+
+```go
+var numbers = make([]int, 0)
+var moreNumbers = make([]int, 3)
+```
+
+Ein Slice hat neben einer Länge (`len()`) auch eine _Kapazität_ (`cap()`) für
+weitere Elemente:
+
+```go
+fmt.Println(numbers, len(numbers), cap(numbers))
+fmt.Println(moreNumbers, len(moreNumbers), cap(moreNumbers))
+```
+
+Ausgabe:
+
+    [] 0 0
+    [0 0 0] 3 3
+
+Das erste Slice (`numbers`) enthält keine Werte und hat darum die Länge und
+Kapazität 0. Das zweite Slice besteht aus drei Werten und hat darum die Länge
+und Kapazität 3.
+
+Der Unterschied zwischen Länge und Kapazität wird erst dann klar, wenn man
+mithilfe der Slicing-Syntax auf einen Unterbereich zugreift:
+
+```go
+var extract = moreNumbers[0:2]
+fmt.Println(extract, len(extract), cap(extract))
+```
+
+Ausgabe:
+
+    [0 0] 2 3
+
+Die Länge beträgt jetzt nur noch `2`, doch die Kapazität beträgt nach wie vor
+`3`, weil das zugrundeliegende Slice (bzw. Array) noch einen weiteren Wert
+aufnehmen kann.

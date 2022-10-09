@@ -23,9 +23,9 @@ func main() {
 	var secondClass = Class{[]Student{fourthStudent, fifthStudent, sixthStudent}}
 
 	modules := map[uint][]Class{
-		104: []Class{firstClass},
-		117: []Class{firstClass, secondClass},
-		346: []Class{secondClass},
+		104: {firstClass},
+		117: {firstClass, secondClass},
+		346: {secondClass},
 	}
 
 	fmt.Println(modules)
